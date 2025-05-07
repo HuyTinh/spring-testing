@@ -1,4 +1,4 @@
-package com.testing.app.util.init_data_excel;
+package com.testing.app.util.init_data;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

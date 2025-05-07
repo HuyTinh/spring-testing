@@ -1,4 +1,4 @@
-package com.testing.app.controller.dto.request;
+package com.testing.app.customer.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

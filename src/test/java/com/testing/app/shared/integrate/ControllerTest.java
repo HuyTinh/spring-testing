@@ -1,6 +1,7 @@
 package com.testing.app.shared.integrate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.testing.app.util.CommonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,10 +16,14 @@ import java.time.format.DateTimeFormatter;
 @AutoConfigureMockMvc
 public abstract class ControllerTest extends BaseIntegrationTest {
     @Autowired
-    private MockMvc mockMvc;
+    protected MockMvc mockMvc;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    protected ObjectMapper objectMapper;
+
+    @Autowired
+    protected CommonUtils commonUtils;
+
 
     protected void logRequestAndResponse(MvcResult result) throws UnsupportedEncodingException {
         String requestBody = result.getRequest().getContentAsString();

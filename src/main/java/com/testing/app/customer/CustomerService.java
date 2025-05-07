@@ -1,7 +1,8 @@
-package com.testing.app.controller;
+package com.testing.app.customer;
 
-import com.testing.app.controller.dto.request.CreateCustomerRequest;
-import com.testing.app.controller.dto.request.UpdateCustomerRequest;
+import com.testing.app.customer.dto.request.CreateCustomerRequest;
+import com.testing.app.customer.dto.request.UpdateCustomerRequest;
+import com.testing.app.customer.dto.response.BaseCustomerResponse;
 import com.testing.app.exception.CustomerEmailUnavailableException;
 import com.testing.app.exception.CustomerNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.Optional;
 public class CustomerService {
     private final CustomerRepository customerRepository;
 
+    private final CustomerMapper customerMapper;
 
     /**
      * Lấy danh sách khách hàng.
@@ -54,8 +56,8 @@ public class CustomerService {
      *
      * @param request {@link CreateCustomerRequest} yêu cầu (request) tạo khách hàng.
      * @author HuyTinh
-     * **/
-    public void createCustomer(CreateCustomerRequest request) {
+     **/
+    public BaseCustomerResponse createCustomer(CreateCustomerRequest request) {
         // Kiểm tra dữ liệu yêu cầu tạo mới khách hàng.
         validateCreateCustomerRequest(request);
 
@@ -67,7 +69,7 @@ public class CustomerService {
                                           .build();
 
         // Lưu khách hàng vào cơ sở dữ liệu.
-        customerRepository.save(createCustomer);
+        return customerMapper.toBaseResponse(customerRepository.save(createCustomer));
     }
 
     /**
@@ -75,8 +77,9 @@ public class CustomerService {
      *
      * @param request {@link UpdateCustomerRequest} yêu cầu (request) cập nhật khách hàng.
      * @author HuyTinh
-     * **/
-    public void updateCustomer(UpdateCustomerRequest request) {}
+     **/
+    public void updateCustomer(UpdateCustomerRequest request) {
+    }
 
     private void validateCreateCustomerRequest(CreateCustomerRequest request) {
         // Tìm kiếm khách hàng với email tương ứng trong cơ sở dữ liệu.

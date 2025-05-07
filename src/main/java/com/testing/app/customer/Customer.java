@@ -1,4 +1,4 @@
-package com.testing.app.controller;
+package com.testing.app.customer;
 
 import jakarta.persistence.*;
 import lombok.*;

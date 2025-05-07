@@ -1,4 +1,4 @@
-package com.testing.app.util.init_data_excel;
+package com.testing.app.util.init_data;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -10,13 +10,16 @@ import java.io.FileInputStream;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class GenericExcelValidationReader {
+public class InitDataUtils {
+
+    private static final StringBuilder RESOURCE_PATH = new StringBuilder("src/test/resources/init_data_excel");
 
     public static Map<String, List<ValueWithValidity>> readValidationData(String filePath,
                                                                           String sheetName) throws Exception {
         Map<String, List<ValueWithValidity>> result = new LinkedHashMap<>();
 
-        try (Workbook workbook = new XSSFWorkbook(new FileInputStream(filePath))) {
+        try (Workbook workbook = new XSSFWorkbook(new FileInputStream(RESOURCE_PATH.append("/").append(filePath)
+                                                                                   .toString()))) {
             Sheet sheet = workbook.getSheet(sheetName);
             if (sheet == null) throw new IllegalArgumentException("Sheet '" + sheetName + "' not found");
 

@@ -10,11 +10,13 @@ import java.time.ZonedDateTime;
 @Getter
 @Setter
 @Builder
-public class ApiErrorResponse {
+public class ApiResponse<T> {
 
     private HttpStatus httpStatus;
     private String message;
     private String path;
     private String api;
-    private ZonedDateTime timeStamp;
+    @Builder.Default
+    private ZonedDateTime timeStamp = ZonedDateTime.now();
+    private T data;
 }

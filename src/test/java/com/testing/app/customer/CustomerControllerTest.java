@@ -1,10 +1,11 @@
 package com.testing.app.customer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.testing.app.controller.dto.request.CreateCustomerRequest;
+import com.testing.app.customer.dto.request.CreateCustomerRequest;
 import com.testing.app.shared.integrate.ControllerTest;
-import com.testing.app.util.init_data_excel.GenericExcelValidationReader;
-import com.testing.app.util.init_data_excel.ValueWithValidity;
+import com.testing.app.util.CommonUtils;
+import com.testing.app.util.init_data.InitDataUtils;
+import com.testing.app.util.init_data.ValueWithValidity;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,20 +34,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DisplayName("CustomerServiceTesting")
 class CustomerControllerTest extends ControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
+    // Khởi tạo dữ liệu test
     private static Stream<Arguments> initData(String typeModification) throws Exception {
-        String filePath = "src/test/resources/init_data_excel/data_test_validation_customer.xlsx";
+        String filePath = "data_test_validation_customer.xlsx";
         Map<String, List<ValueWithValidity>> testData =
-                GenericExcelValidationReader.readValidationData(filePath, typeModification);
+                InitDataUtils.readValidationData(filePath, typeModification);
 
         List<Arguments> createdCustomerTestCases = new ArrayList<>();
 
-        GenericExcelValidationReader.provideData(testData).forEach((combo -> {
+        InitDataUtils.provideData(testData).forEach((combo -> {
             CreatedCustomerTestCase createdCustomerTestCase = new CreatedCustomerTestCase();
 
             CreateCustomerRequest customer = createdCustomerTestCase.getCreateCustomerRequest();
@@ -77,6 +73,7 @@ class CustomerControllerTest extends ControllerTest {
         return createdCustomerTestCases.stream();
     }
 
+
     private static Stream<Arguments> customerCreatedTestCases() throws Exception {
         return initData("create");
     }
@@ -84,23 +81,19 @@ class CustomerControllerTest extends ControllerTest {
     @Transactional
     @ParameterizedTest(name = "Test case {index}: {0}")
     @MethodSource("customerCreatedTestCases")
-    @DisplayName("createCustomerController")
-    void createCustomer(CreatedCustomerTestCase createdCustomerTestCase) {
+    @DisplayName("createCustomer")
+    void createCustomer(CreatedCustomerTestCase createdCustomerTestCase) throws Exception {
+        String content = commonUtils.writeValueAsString(createdCustomerTestCase.getCreateCustomerRequest());
 
-        try {
-            String content = objectMapper.writeValueAsString(createdCustomerTestCase.getCreateCustomerRequest());
+        ResultMatcher resultMatcher = jsonPath("$.message", isIn(
+                createdCustomerTestCase.getMessages()
+                                                                ));
 
-            ResultMatcher resultMatcher = jsonPath("$.message", isIn(
-                    createdCustomerTestCase.getMessages()
-                                                                    ));
-
-            mockMvc.perform(post("/api/v1/customers")
-                                    .contentType(MediaType.APPLICATION_JSON)
-                                    .content(content))
-                   .andExpect(resultMatcher)
-                   .andDo(super::logRequestAndResponse);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        mockMvc.perform(
+                       post("/api/v1/customers")
+                               .contentType(MediaType.APPLICATION_JSON)
+                               .content(content))
+               .andExpect(resultMatcher)
+               .andDo(super::logRequestAndResponse);
     }
 }
