@@ -1,0 +1,12 @@
+services:
+  testing-app-db:
+    image: postgres:latest
+    container_name: testing-app-db
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_PASSWORD: Testing@APP@15112003
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: testing-app
+    ports:
+      - "5438:5432"

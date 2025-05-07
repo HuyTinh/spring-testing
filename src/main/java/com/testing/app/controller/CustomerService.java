@@ -1,0 +1,93 @@
+package com.testing.app.controller;
+
+import com.testing.app.controller.dto.request.CreateCustomerRequest;
+import com.testing.app.controller.dto.request.UpdateCustomerRequest;
+import com.testing.app.exception.CustomerEmailUnavailableException;
+import com.testing.app.exception.CustomerNotFoundException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class CustomerService {
+    private final CustomerRepository customerRepository;
+
+
+    /**
+     * Lấy danh sách khách hàng.
+     *
+     * @return danh sách khách hàng {@code List<Customer>}.
+     * @author HuyTinh
+     **/
+    public List<Customer> getCustomers() {
+        log.info("Lấy danh sách khách hàng.");
+
+        // Lấy danh sách khách hàng.
+        return customerRepository.findAll();
+    }
+
+    /**
+     * Tìm khách hàng với Id.
+     *
+     * @param id mã id khách hàng cần tìm kiếm.
+     * @return khách hàng {@code Customer}.
+     * @author HuyTinh
+     **/
+    public Customer getCustomerById(Long id) {
+        log.info("Tìm kiếm khách hàng với ID [{}] trong cơ sở dữ liệu.", id);
+
+        // Tìm kiếm khách hàng với id tương ứng trong cơ sở dữ liệu.
+        return customerRepository.findById(id).orElseThrow(
+                () -> new CustomerNotFoundException(
+                        String.format("Không tìm thấy khách hàng với ID [%d].", id)
+                )
+                                                          );
+    }
+
+    /**
+     * Tạo khách hàng.
+     *
+     * @param request {@link CreateCustomerRequest} yêu cầu (request) tạo khách hàng.
+     * @author HuyTinh
+     * **/
+    public void createCustomer(CreateCustomerRequest request) {
+        // Kiểm tra dữ liệu yêu cầu tạo mới khách hàng.
+        validateCreateCustomerRequest(request);
+
+        // Tạo đối tượng khách hàng.
+        Customer createCustomer = Customer.builder()
+                                          .name(request.getName())
+                                          .email(request.getEmail())
+                                          .address(request.getAddress())
+                                          .build();
+
+        // Lưu khách hàng vào cơ sở dữ liệu.
+        customerRepository.save(createCustomer);
+    }
+
+    /**
+     * Cập nhật khách hàng.
+     *
+     * @param request {@link UpdateCustomerRequest} yêu cầu (request) cập nhật khách hàng.
+     * @author HuyTinh
+     * **/
+    public void updateCustomer(UpdateCustomerRequest request) {}
+
+    private void validateCreateCustomerRequest(CreateCustomerRequest request) {
+        // Tìm kiếm khách hàng với email tương ứng trong cơ sở dữ liệu.
+        Optional<Customer> customerByEmail = customerRepository.findByEmail(request.getEmail());
+
+        // Nếu đã có khách hàng với email tương ứng.
+        if (customerByEmail.isPresent()) {
+            // Ném ngoại lệ "Email [%s] không hợp lệ.".
+            throw new CustomerEmailUnavailableException(
+                    String.format("Email [%s] không hợp lệ.", request.getEmail())
+            );
+        }
+    }
+}
