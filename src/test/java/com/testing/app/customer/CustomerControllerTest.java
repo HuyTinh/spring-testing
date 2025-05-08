@@ -1,7 +1,9 @@
 package com.testing.app.customer;
 
+import com.testing.app.domain.customer.dto.request.CreateCustomerLoyaltyRequest;
 import com.testing.app.domain.customer.dto.request.CreateCustomerRequest;
 import com.testing.app.shared.integrate.ControllerTest;
+import com.testing.app.util.CommonUtils;
 import com.testing.app.util.init_data.InitDataUtils;
 import com.testing.app.util.init_data.ValueWithValidity;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +43,7 @@ class CustomerControllerTest extends ControllerTest {
             CreatedCustomerTestCase createdCustomerTestCase = new CreatedCustomerTestCase();
 
             CreateCustomerRequest customer = createdCustomerTestCase.getCreateCustomerRequest();
+            CommonUtils commonUtils = new CommonUtils();
             combo.forEach((field, value) -> {
                 if (combo.containsKey("name")) {
                     customer.setName(String.valueOf(combo.get("name").getValue()));
@@ -52,6 +55,13 @@ class CustomerControllerTest extends ControllerTest {
 
                 if (combo.containsKey("address")) {
                     customer.setAddress(String.valueOf(combo.get("address").getValue()));
+                }
+
+                if (combo.containsKey("loyalties")) {
+                    customer.setLoyalties(
+                            commonUtils.jsonToSet(combo.get("loyalties").getValue().toString(),
+                                                  CreateCustomerLoyaltyRequest.class)
+                                         );
                 }
 
                 if (ObjectUtils.isNotEmpty(value.getMessage())) {

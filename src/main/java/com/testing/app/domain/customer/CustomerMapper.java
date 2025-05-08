@@ -6,7 +6,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CustomerMapper {
-    public BaseCustomerResponse toBaseResponse(Customer customer){
+    /**
+     * Mapper dữ liệu từ đối tượng khách hàng {@link Customer} sang Dto phản hồi {@link BaseCustomerResponse}.
+     **/
+    public BaseCustomerResponse toBaseResponse(Customer customer) {
         BaseCustomerResponse baseCustomerResponse = new BaseCustomerResponse();
         BeanUtils.copyProperties(customer, baseCustomerResponse);
 

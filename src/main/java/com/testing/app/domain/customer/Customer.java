@@ -5,6 +5,7 @@ import com.testing.app.domain.loyalty.Loyalty;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -12,7 +13,6 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-@ToString
 @Entity
 @Table(name = "customers")
 public class Customer extends AbstractEntity<Long> {
@@ -21,9 +21,8 @@ public class Customer extends AbstractEntity<Long> {
 
     private String email;
 
-
     private String address;
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
-    Set<Loyalty> loyalties;
+    private Set<Loyalty> loyalties = new HashSet<>();
 }
