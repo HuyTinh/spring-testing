@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.HandlerMethod;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,7 +33,6 @@ public class GlobalExceptionHandler {
                           .message(ex.getMessage())
                           .path(request.getRequestURI())
                           .api(method.getMethod().getName())
-                          .timeStamp(ZonedDateTime.now())
                           .build();
     }
 
@@ -56,7 +54,6 @@ public class GlobalExceptionHandler {
                           .message(ex.getMessage())
                           .path(request.getRequestURI())
                           .api(method.getMethod().getName())
-                          .timeStamp(ZonedDateTime.now())
                           .build();
     }
 
@@ -76,7 +73,6 @@ public class GlobalExceptionHandler {
                           .message(message)
                           .path(request.getRequestURI())
                           .api(method.getMethod().getName())
-                          .timeStamp(ZonedDateTime.now())
                           .build();
     }
 }

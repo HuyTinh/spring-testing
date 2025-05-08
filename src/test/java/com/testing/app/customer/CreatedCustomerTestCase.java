@@ -1,6 +1,6 @@
 package com.testing.app.customer;
 
-import com.testing.app.customer.dto.request.CreateCustomerRequest;
+import com.testing.app.domain.customer.dto.request.CreateCustomerRequest;
 import lombok.*;
 
 import java.util.ArrayList;

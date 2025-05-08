@@ -1,4 +1,4 @@
-package com.testing.app.customer.dto.request;
+package com.testing.app.domain.customer.dto.request;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;

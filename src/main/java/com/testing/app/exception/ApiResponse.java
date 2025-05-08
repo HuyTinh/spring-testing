@@ -3,7 +3,7 @@ package com.testing.app.exception;
 import lombok.*;
 import org.springframework.http.HttpStatus;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,6 +17,6 @@ public class ApiResponse<T> {
     private String path;
     private String api;
     @Builder.Default
-    private ZonedDateTime timeStamp = ZonedDateTime.now();
+    private LocalDateTime timeStamp = LocalDateTime.now();
     private T data;
 }

@@ -1,4 +1,4 @@
-package com.testing.app.customer;
+package com.testing.app.domain.customer;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

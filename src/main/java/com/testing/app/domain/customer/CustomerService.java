@@ -1,8 +1,8 @@
-package com.testing.app.customer;
+package com.testing.app.domain.customer;
 
-import com.testing.app.customer.dto.request.CreateCustomerRequest;
-import com.testing.app.customer.dto.request.UpdateCustomerRequest;
-import com.testing.app.customer.dto.response.BaseCustomerResponse;
+import com.testing.app.domain.customer.dto.request.CreateCustomerRequest;
+import com.testing.app.domain.customer.dto.request.UpdateCustomerRequest;
+import com.testing.app.domain.customer.dto.response.BaseCustomerResponse;
 import com.testing.app.exception.CustomerEmailUnavailableException;
 import com.testing.app.exception.CustomerNotFoundException;
 import lombok.RequiredArgsConstructor;

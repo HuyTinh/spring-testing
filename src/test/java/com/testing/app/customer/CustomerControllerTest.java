@@ -1,9 +1,7 @@
 package com.testing.app.customer;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.testing.app.customer.dto.request.CreateCustomerRequest;
+import com.testing.app.domain.customer.dto.request.CreateCustomerRequest;
 import com.testing.app.shared.integrate.ControllerTest;
-import com.testing.app.util.CommonUtils;
 import com.testing.app.util.init_data.InitDataUtils;
 import com.testing.app.util.init_data.ValueWithValidity;
 import lombok.extern.slf4j.Slf4j;
@@ -11,11 +9,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.shaded.org.apache.commons.lang3.ObjectUtils;
 
 import java.util.ArrayList;
@@ -78,22 +73,21 @@ class CustomerControllerTest extends ControllerTest {
         return initData("create");
     }
 
-    @Transactional
     @ParameterizedTest(name = "Test case {index}: {0}")
     @MethodSource("customerCreatedTestCases")
     @DisplayName("createCustomer")
     void createCustomer(CreatedCustomerTestCase createdCustomerTestCase) throws Exception {
         String content = commonUtils.writeValueAsString(createdCustomerTestCase.getCreateCustomerRequest());
 
-        ResultMatcher resultMatcher = jsonPath("$.message", isIn(
+        ResultMatcher messageMatcher = jsonPath("$.message", isIn(
                 createdCustomerTestCase.getMessages()
-                                                                ));
+                                                                 ));
 
         mockMvc.perform(
                        post("/api/v1/customers")
                                .contentType(MediaType.APPLICATION_JSON)
                                .content(content))
-               .andExpect(resultMatcher)
+               .andExpect(messageMatcher)
                .andDo(super::logRequestAndResponse);
     }
 }

@@ -1,6 +1,6 @@
-package com.testing.app.customer;
+package com.testing.app.domain.customer;
 
-import com.testing.app.customer.dto.response.BaseCustomerResponse;
+import com.testing.app.domain.customer.dto.response.BaseCustomerResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 

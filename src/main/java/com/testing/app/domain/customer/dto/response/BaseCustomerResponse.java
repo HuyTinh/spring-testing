@@ -1,5 +1,6 @@
-package com.testing.app.customer.dto.response;
+package com.testing.app.domain.customer.dto.response;
 
+import com.testing.app.common.response.BaseResponse;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -9,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class BaseCustomerResponse {
+public class BaseCustomerResponse extends BaseResponse<Long> {
     private String name;
 
     private String email;
