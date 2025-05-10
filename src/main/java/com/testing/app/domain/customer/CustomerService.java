@@ -30,11 +30,11 @@ public class CustomerService {
      * @return danh sách khách hàng {@code List<Customer>}.
      * @author HuyTinh
      **/
-    public List<Customer> getCustomers() {
+    public List<BaseCustomerResponse> getCustomers() {
         log.info("Lấy danh sách khách hàng.");
 
         // Lấy danh sách khách hàng.
-        return customerRepository.findAll();
+        return customerRepository.findAll().stream().map(customerMapper::toBaseResponse).toList();
     }
 
     /**
@@ -44,15 +44,17 @@ public class CustomerService {
      * @return khách hàng {@code Customer}.
      * @author HuyTinh
      **/
-    public Customer getCustomerById(Long id) {
+    public BaseCustomerResponse getCustomerById(Long id) {
         log.info("Tìm kiếm khách hàng với ID [{}] trong cơ sở dữ liệu.", id);
 
         // Tìm kiếm khách hàng với id tương ứng trong cơ sở dữ liệu.
-        return customerRepository.findById(id).orElseThrow(
-                () -> new CustomerNotFoundException(
-                        String.format("Không tìm thấy khách hàng với ID [%d].", id)
-                )
-                                                          );
+        return customerMapper.toBaseResponse(
+                customerRepository.findById(id).orElseThrow(
+                        () -> new CustomerNotFoundException(
+                                String.format("Không tìm thấy khách hàng với ID [%d].", id)
+                        )
+                                                           )
+                                            );
     }
 
     /**
@@ -78,7 +80,8 @@ public class CustomerService {
      * @param request {@link UpdateCustomerRequest} yêu cầu (request) cập nhật khách hàng.
      * @author HuyTinh
      **/
-    public void updateCustomer(UpdateCustomerRequest request) {}
+    public void updateCustomer(UpdateCustomerRequest request) {
+    }
 
     /**
      * Kiểm tra dữ liệu yêu cầu (request) tạo khách hàng.

@@ -21,14 +21,14 @@ public class GlobalExceptionHandler {
      * @param ex      là ngoại lệ (exception) email khách hàng không hợp lệ.
      * @param request là yêu cầu (request) của người dùng (client).
      * @param method  là phương thức (method) xử lý yêu cầu (request) của người dùng (client).
-     * @return phản hồi {@code ApiResponse} cho người dùng (client).
+     * @return phản hồi {@code APIResponse} cho người dùng (client).
      **/
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(CustomerEmailUnavailableException.class)
-    public ApiResponse handleCustomerEmailUnavailableException(CustomerEmailUnavailableException ex,
+    public APIResponse handleCustomerEmailUnavailableException(CustomerEmailUnavailableException ex,
                                                                HttpServletRequest request,
                                                                HandlerMethod method) {
-        return ApiResponse.builder()
+        return APIResponse.builder()
                           .httpStatus(HttpStatus.CONFLICT)
                           .message(ex.getMessage())
                           .path(request.getRequestURI())
@@ -42,14 +42,14 @@ public class GlobalExceptionHandler {
      * @param ex      là ngoại lệ (exception) không tìm thấy khách hàng.
      * @param request là yêu cầu (request) của người dùng (client).
      * @param method  là phương thức (method) xử lý yêu cầu (request) của người dùng (client).
-     * @return phản hồi {@code ApiResponse} cho người dùng (client).
+     * @return phản hồi {@code APIResponse} cho người dùng (client).
      **/
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(CustomerNotFoundException.class)
-    public ApiResponse handleCustomerNotFoundException(CustomerNotFoundException ex,
+    public APIResponse handleCustomerNotFoundException(CustomerNotFoundException ex,
                                                        HttpServletRequest request,
                                                        HandlerMethod method) {
-        return ApiResponse.builder()
+        return APIResponse.builder()
                           .httpStatus(HttpStatus.NOT_FOUND)
                           .message(ex.getMessage())
                           .path(request.getRequestURI())
@@ -59,7 +59,7 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ApiResponse handleValidationException(MethodArgumentNotValidException ex,
+    public APIResponse handleValidationException(MethodArgumentNotValidException ex,
                                                  HttpServletRequest request,
                                                  HandlerMethod method) {
         List<FieldError> errors = ex.getBindingResult().getFieldErrors().stream()
@@ -68,7 +68,7 @@ public class GlobalExceptionHandler {
         FieldError firstError = errors.getFirst();
         String message = firstError.getDefaultMessage();
 
-        return ApiResponse.builder()
+        return APIResponse.builder()
                           .httpStatus(HttpStatus.BAD_REQUEST)
                           .message(message)
                           .path(request.getRequestURI())

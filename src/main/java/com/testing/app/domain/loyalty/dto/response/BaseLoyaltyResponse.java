@@ -3,16 +3,17 @@ package com.testing.app.domain.loyalty.dto.response;
 import com.testing.app.common.response.BaseResponse;
 import com.testing.app.domain.loyalty.LoyaltyTier;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
-@Setter
-@Getter
-@SuperBuilder
-@NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@NoArgsConstructor
+@SuperBuilder
+@Getter
+@Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class BaseLoyaltyResponse extends BaseResponse<Long> {
-    private Integer pointBalance;
+    Integer pointBalance;
 
-    private LoyaltyTier tier;
+    LoyaltyTier tier;
 }

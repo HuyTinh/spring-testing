@@ -14,7 +14,7 @@ import java.util.Map;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ExtraFieldResponse {
+public abstract class ExtraFieldResponse {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Getter(AccessLevel.NONE)
     Map<String, Object> extraFields;

@@ -1,7 +1,6 @@
 package com.testing.app.domain.loyalty.dto.request;
 
 import com.testing.app.domain.loyalty.LoyaltyTier;
-import jakarta.persistence.Column;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 

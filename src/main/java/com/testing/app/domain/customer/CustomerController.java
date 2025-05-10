@@ -2,7 +2,7 @@ package com.testing.app.domain.customer;
 
 import com.testing.app.domain.customer.dto.request.CreateCustomerRequest;
 import com.testing.app.domain.customer.dto.response.BaseCustomerResponse;
-import com.testing.app.exception.ApiResponse;
+import com.testing.app.exception.APIResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,10 +19,10 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping
-    public ApiResponse<BaseCustomerResponse> createCustomer(
+    public APIResponse<BaseCustomerResponse> createCustomer(
             @RequestBody @Valid CreateCustomerRequest request
                                                            ) {
-        return ApiResponse.<BaseCustomerResponse>builder()
+        return APIResponse.<BaseCustomerResponse>builder()
                           .httpStatus(HttpStatus.OK)
                           .message("Thêm mới thành công.")
                           .data(customerService.createCustomer(request))

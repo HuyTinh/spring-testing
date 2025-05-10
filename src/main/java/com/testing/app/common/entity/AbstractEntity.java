@@ -1,13 +1,16 @@
 package com.testing.app.common.entity;
 
+import com.testing.app.common.response.BaseResponse;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.function.Supplier;
 
 @Getter
 @Setter
@@ -16,7 +19,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @AllArgsConstructor
 @NoArgsConstructor
-public class AbstractEntity<T> implements Serializable {
+public abstract class AbstractEntity<T> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,5 +50,11 @@ public class AbstractEntity<T> implements Serializable {
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    protected <O extends BaseResponse<T>> O toBaseResponse(Supplier<O> supplier) {
+        O object = supplier.get();
+        BeanUtils.copyProperties(this, object);
+        return object;
     }
 }

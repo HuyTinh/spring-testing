@@ -1,9 +1,12 @@
 package com.testing.app.domain.customer.dto.response;
 
-import com.testing.app.common.response.BaseResponse;
+import com.testing.app.domain.loyalty.dto.response.BaseLoyaltyResponse;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -11,10 +14,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BaseCustomerResponse extends BaseResponse<Long> {
-    String name;
-
-    String email;
-
-    String address;
+public class DetailCustomerResponse extends BaseCustomerResponse {
+    @Builder.Default
+    Set<BaseLoyaltyResponse> loyalties = new HashSet<>();
 }
