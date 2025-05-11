@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -26,5 +29,9 @@ public class Customer extends AbstractEntity<Long> {
     private String address;
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
-    private TrackedSet<Loyalty> loyalties = new TrackedSet<>();
+    private Set<Loyalty> loyalties = new HashSet<>();
+
+    public TrackedSet<Loyalty> getLoyalties() {
+        return new TrackedSet<>(this.loyalties);
+    }
 }

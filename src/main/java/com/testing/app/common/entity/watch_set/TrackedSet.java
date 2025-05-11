@@ -6,11 +6,15 @@ import org.springframework.beans.BeanUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class TrackedSet<T extends AbstractEntity> extends HashSet<T> {
+public class TrackedSet<T extends AbstractEntity> extends HashSet<T> implements Set<T> {
 
     private final Set<ObjectTrackerKey> adds = new HashSet<>();
     private final Map<ObjectTrackerKey, T> removedValues = new HashMap<>();
     private final Set<ObjectTrackerKey> updates = new HashSet<>(); // Thêm set để theo dõi cập nhật
+
+    public TrackedSet(Set<T> originalSet) {
+        super.addAll(originalSet);
+    }
 
     @Override
     public boolean add(T t) {

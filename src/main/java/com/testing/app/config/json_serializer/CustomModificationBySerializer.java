@@ -3,23 +3,24 @@ package com.testing.app.config.json_serializer;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.testing.app.common.enums.AbstractEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
+@Slf4j
 @Component
-public class CustomEnumSerializer extends JsonSerializer<AbstractEnum> {
+public class CustomModificationBySerializer extends JsonSerializer<Long> {
+
     @Override
-    public void serialize(AbstractEnum absEnum,
+    public void serialize(Long modificationBy,
                           JsonGenerator jsonGenerator,
                           SerializerProvider serializerProvider) throws IOException {
-        Map<String, Object> result = new HashMap<>();
-        result.put("name", absEnum.getName());
-        result.put("value", absEnum.getValue());
 
-        jsonGenerator.writeObject(result);
+        if (modificationBy != null) {
+            jsonGenerator.writeString("admin");  // Ghi tên người tạo
+        } else {
+            jsonGenerator.writeNull();  // Nếu không có id, ghi null
+        }
     }
 }
